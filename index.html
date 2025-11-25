@@ -54,48 +54,59 @@
 
     /* card left - hero */
 .hero{
-  background: linear-gradient(135deg, rgba(255,255,255,0.65), rgba(255,255,255,0.40)),
-              url("ligi.png") center 20% / 260px no-repeat; 
-  /* ↑ لوگو بزرگ و وسط، کمی پایین‌تر (20%) */
-  
+  /* لایه‌ی بالایی نیمه‌شفاف برای خوانایی + لوگوی واترمارک */
+  background:
+    linear-gradient(135deg, rgba(255,255,255,0.88), rgba(255,255,255,0.72)),
+    url("ligi.png") center 18% / 300px no-repeat;
+
   border-radius: var(--card-radius);
-  padding:46px 36px 36px;
+  /* فاصلهٔ بالا بیشتر برای جلوگیری از چسبیدن متن به لبه */
+  padding: 80px 36px 40px;
   box-shadow: 0 12px 40px rgba(9,30,66,0.08);
   backdrop-filter: blur(10px) saturate(130%);
-  position:relative;
+  position: relative;
+  text-align: center;
+  overflow: hidden;
 }
 
-    /* decorative shapes */
-    .hero::before{
-      content:"";
-      position:absolute;
-      top:-30%;
-      left:-10%;
-      width:420px;height:420px;
-      background: radial-gradient(circle at 30% 30%, rgba(10,87,255,0.12), transparent 20%),
-                  radial-gradient(circle at 70% 70%, rgba(27,108,255,0.08), transparent 20%);
-      transform:rotate(18deg);
-      pointer-events:none;
-    }
+/* شکل‌های دکوراتیو با شفافیت کمتر و جای مناسب */
+.hero::before{
+  content: "";
+  position: absolute;
+  top: -22%;
+  left: -8%;
+  width: 380px;
+  height: 380px;
+  background:
+    radial-gradient(circle at 30% 30%, rgba(10,87,255,0.10), transparent 22%),
+    radial-gradient(circle at 70% 70%, rgba(27,108,255,0.06), transparent 22%);
+  transform: rotate(14deg);
+  pointer-events: none;
+  filter: blur(6px);
+  opacity: 0.95;
+}
 
-.logo-wrap{ display:none; }
+/* اگر قبلاً .logo در markup بود، از نمایش آن جلوگیری کن (حالا لوگو بک‌گراند است) */
+.logo-wrap { display: none; }
 
-/* بزرگ‌تر: ligi.png */
+/* اگر در جای دیگری لازم است لوگو جداگانه نمایش داده شود، تنظیمات بزرگ‌تر و لطیف‌تر */
 .logo{
-  width:200px;            /* بزرگ‌تر */
-  height:200px;
-  object-fit:contain;
-  border-radius:32px;
-  padding:16px;
-  background:linear-gradient(180deg, rgba(10,87,255,0.06), rgba(27,108,255,0.03));
-  box-shadow: 0 10px 28px rgba(10,87,255,0.10);
-  transition:transform .35s ease, box-shadow .35s ease;
+  width: 220px;            /* بزرگ‌تر */
+  height: 220px;
+  object-fit: contain;
+  border-radius: 28px;
+  padding: 18px;
+  background: linear-gradient(180deg, rgba(10,87,255,0.05), rgba(27,108,255,0.02));
+  box-shadow: 0 12px 34px rgba(10,87,255,0.10);
+  transition: transform .35s ease, box-shadow .35s ease;
 }
 
+/* روی حالت hover کمی lift */
 .logo:hover{
-  transform:translateY(-6px) scale(1.03);
-  box-shadow:0 20px 40px rgba(10,87,255,0.16);
+  transform: translateY(-6px) scale(1.03);
+  box-shadow: 0 22px 44px rgba(10,87,255,0.14);
 }
+
 
     h1{
       margin:8px 0 12px;
@@ -199,7 +210,31 @@
       color:var(--muted);
       font-size:0.85rem;
     }
+@media (max-width: 1000px){
+  .hero{
+    background:
+      linear-gradient(150deg, rgba(255,255,255,0.90), rgba(255,255,255,0.78)),
+      url("ligi.png") center 20% / 260px no-repeat;
+    padding-top: 100px;
+    padding-left: 24px;
+    padding-right: 24px;
+  }
+  .logo{ width: 180px; height: 180px; padding: 14px; }
+  .hero::before{ width: 320px; height: 320px; top: -26%; left: -6%; }
+}
 
+@media (max-width: 480px){
+  .hero{
+    background:
+      linear-gradient(160deg, rgba(255,255,255,0.92), rgba(255,255,255,0.82)),
+      url("ligi.png") center 22% / 220px no-repeat;
+    padding-top: 120px; /* موبایل: فاصله بالاتر برای جلوگیری از تداخل با لوگو */
+    padding-left: 18px;
+    padding-right: 18px;
+  }
+  .logo{ width: 140px; height: 140px; padding: 10px; }
+  .hero::before{ width: 260px; height: 260px; top: -30%; left: -4%; filter: blur(8px); opacity: 0.85; }
+}
     /* Responsive */
     @media (max-width:1000px){
       .wrap{ grid-template-columns: 1fr; max-width:680px; gap:18px; padding:0 6px; }
