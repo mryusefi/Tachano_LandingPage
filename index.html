@@ -1,113 +1,328 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="fa" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>صفحه فرود</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>ثبت نام تست — صفحه فرود</title>
 
-    <style>
-        body {
-            margin: 0;
-            font-family: "IRANSans", sans-serif;
-            background: #f7faff;
-            color: #0a2a66;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 20px;
-        }
+  <!-- IranYekan (local) - قرار بدهید IranYekan.woff2 کنار همین فایل -->
+  <style>
+    @font-face {
+      font-family: "IranYekan";
+      src: url("IranYekan.woff2") format("woff2"),
+           url("IranYekan.woff") format("woff");
+      font-weight: 300 800;
+      font-style: normal;
+      font-display: swap;
+    }
 
-        .container {
-            max-width: 450px;
-            width: 100%;
-            background: white;
-            padding: 28px;
-            border-radius: 18px;
-            box-shadow: 0 6px 22px rgba(0, 0, 0, 0.08);
-            text-align: center;
-        }
+    :root{
+      --bg-1: #eaf2ff;
+      --bg-2: #f0f7ff;
+      --accent: #0a57ff;
+      --accent-2: #1b6cff;
+      --muted: #6b7aa3;
+      --card-radius: 18px;
+      --max-w: 880px;
+    }
 
-        img.logo {
-            width: 100px;
-            height: 100px;
-            margin-bottom: 18px;
-        }
+    /* Global */
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family: "IranYekan", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      background: linear-gradient(180deg,var(--bg-1),var(--bg-2));
+      color:#07214a;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:36px 20px;
+    }
 
-        h1 {
-            font-size: 1.4rem;
-            margin-bottom: 18px;
-            line-height: 1.9;
-        }
+    /* Layout */
+    .wrap{
+      width:100%;
+      max-width:var(--max-w);
+      display:grid;
+      grid-template-columns: 1fr 420px;
+      gap:28px;
+      align-items:center;
+    }
 
-        p {
-            font-size: 1rem;
-            line-height: 1.8;
-            margin-bottom: 20px;
-        }
+    /* card left - hero */
+    .hero{
+      background: linear-gradient(135deg, rgba(255,255,255,0.6), rgba(255,255,255,0.35));
+      border-radius: var(--card-radius);
+      padding:36px;
+      box-shadow: 0 12px 40px rgba(9,30,66,0.08);
+      backdrop-filter: blur(6px) saturate(120%);
+      position:relative;
+      overflow:hidden;
+    }
 
-        input {
-            width: 100%;
-            padding: 12px;
-            margin: 8px 0;
-            border-radius: 10px;
-            border: 1px solid #c7d7ef;
-            font-size: 1rem;
-        }
+    /* decorative shapes */
+    .hero::before{
+      content:"";
+      position:absolute;
+      top:-30%;
+      left:-10%;
+      width:420px;height:420px;
+      background: radial-gradient(circle at 30% 30%, rgba(10,87,255,0.12), transparent 20%),
+                  radial-gradient(circle at 70% 70%, rgba(27,108,255,0.08), transparent 20%);
+      transform:rotate(18deg);
+      pointer-events:none;
+    }
 
-        button {
-            width: 100%;
-            padding: 14px;
-            background: #0a57ff;
-            color: white;
-            border: none;
-            border-radius: 12px;
-            font-size: 1.1rem;
-            cursor: pointer;
-            margin-top: 10px;
-            transition: 0.3s;
-        }
+    .logo-wrap{
+      display:flex;
+      justify-content:center;
+      margin-bottom:18px;
+    }
 
-        button:hover {
-            background: #0848d1;
-        }
+    /* bigger ligi.png */
+    .logo{
+      width:160px;       /* بزرگ‌تر شده */
+      height:160px;
+      object-fit:contain;
+      border-radius:28px;
+      padding:12px;
+      background:linear-gradient(180deg, rgba(10,87,255,0.06), rgba(27,108,255,0.03));
+      box-shadow: 0 8px 24px rgba(10,87,255,0.08);
+      transition:transform .35s ease, box-shadow .35s ease;
+    }
+    .logo:hover{ transform:translateY(-6px) scale(1.02); box-shadow:0 18px 36px rgba(10,87,255,0.12); }
 
-        .team-info {
-            margin-top: 25px;
-            padding-top: 15px;
-            border-top: 1px solid #e2e8f5;
-            font-size: 0.95rem;
-            line-height: 1.8;
-        }
-    </style>
+    h1{
+      margin:8px 0 12px;
+      font-size:1.6rem;
+      line-height:1.25;
+      color:#032044;
+    }
+
+    .lead{
+      color:var(--muted);
+      font-size:1rem;
+      line-height:1.85;
+      margin-bottom:20px;
+    }
+
+    .features{
+      display:flex;
+      gap:12px;
+      margin-top:14px;
+      flex-wrap:wrap;
+    }
+    .chip{
+      background:rgba(10,87,255,0.06);
+      color:var(--accent-2);
+      padding:8px 12px;
+      border-radius:12px;
+      font-size:0.92rem;
+      box-shadow:inset 0 1px 0 rgba(255,255,255,0.6);
+    }
+
+    /* right card - signup form */
+    .card{
+      background:linear-gradient(180deg,#ffffff, #fbfdff);
+      border-radius:18px;
+      padding:26px;
+      box-shadow: 0 10px 30px rgba(12,30,80,0.07);
+    }
+
+    .form-title{
+      display:flex;
+      align-items:center;
+      gap:12px;
+      margin-bottom:10px;
+    }
+    .form-title h2{ margin:0; font-size:1.05rem; color:#07214a;}
+    .small{ color:var(--muted); font-size:0.9rem; margin-top:6px }
+
+    form{ margin-top:10px }
+    .field{
+      display:flex;
+      flex-direction:column;
+      gap:8px;
+      margin-bottom:12px;
+    }
+    label{ font-size:0.9rem; color:#334067; text-align:right; }
+    input[type="text"], input[type="email"]{
+      width:100%;
+      padding:12px 14px;
+      border-radius:12px;
+      border:1px solid #e3e9fb;
+      background: linear-gradient(180deg,#fff,#fbfdff);
+      outline:none;
+      font-size:1rem;
+      transition:box-shadow .15s ease, border-color .12s ease, transform .12s ease;
+    }
+    input:focus{ box-shadow:0 8px 24px rgba(10,87,255,0.08); border-color:var(--accent); transform:translateY(-1px); }
+
+    .btn{
+      width:100%;
+      padding:12px 14px;
+      border-radius:12px;
+      border:none;
+      background: linear-gradient(90deg,var(--accent), var(--accent-2));
+      color:white;
+      font-weight:600;
+      font-size:1rem;
+      cursor:pointer;
+      box-shadow: 0 8px 20px rgba(10,87,255,0.14);
+      transition:transform .14s ease, box-shadow .14s ease;
+    }
+    .btn:active{ transform:translateY(1px) }
+    .muted-note{
+      font-size:0.85rem;
+      color:var(--muted);
+      margin-top:10px;
+      text-align:center;
+    }
+
+    .team{
+      margin-top:18px;
+      padding:14px;
+      border-radius:12px;
+      background: linear-gradient(180deg, rgba(10,87,255,0.03), transparent);
+      font-size:0.95rem;
+      color:#14305a;
+    }
+
+    footer{
+      margin-top:18px;
+      text-align:center;
+      color:var(--muted);
+      font-size:0.85rem;
+    }
+
+    /* Responsive */
+    @media (max-width:1000px){
+      .wrap{ grid-template-columns: 1fr; max-width:680px; gap:18px; padding:0 6px; }
+      .logo{ width:140px;height:140px }
+    }
+    @media (max-width:480px){
+      body{ padding:18px }
+      .logo{ width:120px;height:120px }
+      h1{ font-size:1.25rem }
+      .lead{ font-size:0.98rem }
+    }
+  </style>
 </head>
 
 <body>
 
-    <div class="container">
-        <img src="logo.png" class="logo" alt="Logo">
+  <main class="wrap" role="main" aria-labelledby="hero-title">
+    <!-- HERO / left -->
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="logo-wrap" aria-hidden="true">
+        <!-- بزرگ‌تر: ligi.png -->
+        <img src="ligi.png" alt="لوگو" class="logo" />
+      </div>
 
-        <h1>داستان برند ما</h1>
+      <h1 id="hero-title">به جمع تست‌کنندگان ما خوش آمدید — تجربهٔ سریع و هدفمند</h1>
 
-        <p>
+      <p class="lead">
 “با متوقف کردن یادگیری، شروع به مردن می‌کنید.” – انیشتین 
 متخصصان فناوری باید همگام با رشد تکنولوژی، بدون هدر دادن زمان و انرژی ، رشد کنن . برای این کار نیازی به معجزه نیست؛ فقط کافی است زمان را صرف یادگیری مطالب کنید، نه جستجو آن.  
 تچانو این مسیر را برای شما هموار می‌کند با جمع‌آوری و شخصی‌سازی محتوا از معتبرترین منابع دنیا، متناسب با نیازهای شما.
-وقت آن است که یادگیری را متوقف نکنید و با رشد فناوری همراه شوید. همین امروز شروع کنید!
-        </p>
+وقت آن است که یادگیری را متوقف نکنید و با رشد فناوری همراه شوید. 
+      </p>
 
-        <form>
-            <input type="text" placeholder="نام شما">
-            <input type="email" placeholder="ایمیل شما">
-            <button type="submit">ثبت نام برای تست</button>
-        </form>
+      <div class="features" aria-hidden="true">
+        <span class="chip">دسترسی اولیه</span>
+        <span class="chip">نسخهٔ موبایل و وب</span>
+        <span class="chip">بازخورد مستقیم به تیم</span>
+      </div>
 
-        <div class="team-info">
-            <p>
-                تیم ما متشکل از توسعه‌دهندگان، طراحان و عاشقان فناوری است  
-                که با هدف ساخت یک پلتفرم هوشمند برای افراد حرفه‌ای کار می‌کنند.
-            </p>
+      <div class="team" aria-label="درباره تیم">
+        <strong>تیم ما</strong>
+        <div style="margin-top:8px; color:#24406e;">
+          تیمی متشکل از توسعه‌دهنده‌ها و طراحان که با روش‌های چابک روی تجربهٔ کاربری و کیفیت محتوا کار می‌کنند.
+          هدف ما این است که ابزارهایی بسازیم که واقعا کار توسعه‌دهندگان را آسان کند.
         </div>
-    </div>
+      </div>
 
+      <footer>
+        <div>سوال دارید؟ به ایمیل <strong>info@yourstartup.ir</strong> پیام دهید.</div>
+      </footer>
+    </section>
+
+    <!-- SIGNUP / right -->
+    <aside class="card" aria-labelledby="form-title">
+      <div class="form-title">
+        <svg width="36" height="36" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <rect x="2" y="3" width="20" height="14" rx="2" stroke="#1b6cff" stroke-width="1.5" />
+          <path d="M3 7l9 6 9-6" stroke="#1b6cff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+
+        <div>
+          <h2 id="form-title">عضویت در برنامهٔ تست</h2>
+          <div class="small">تعداد محدود — جایگاه خود را ثبت کنید.</div>
+        </div>
+      </div>
+
+      <form id="signup-form" onsubmit="handleSubmit(event)" novalidate>
+        <div class="field">
+          <label for="name">نام و نام خانوادگی</label>
+          <input id="name" name="name" type="text" placeholder="مثال: محمدرضا یوسفی" required />
+        </div>
+
+        <div class="field">
+          <label for="email">ایمیل</label>
+          <input id="email" name="email" type="email" placeholder="example@mail.com" required />
+        </div>
+
+        <button class="btn" type="submit">ثبت‌نام برای تست</button>
+
+        <div class="muted-note" id="status" role="status" aria-live="polite">
+          اطلاعات شما نزد ما محفوظ است — فقط برای دعوت به تست استفاده می‌شود.
+        </div>
+      </form>
+    </aside>
+  </main>
+
+  <!-- اختیاری: اسکریپت محلی برای نمایش پیام موفقیت (بدون ارسال واقعی) -->
+  <script>
+    function handleSubmit(e){
+      e.preventDefault();
+      const name = document.getElementById('name').value.trim();
+      const email = document.getElementById('email').value.trim();
+
+      // ساده‌ترین اعتبارسنجی
+      if(!name || !email){
+        showStatus('لطفاً نام و ایمیل را کامل کنید.', true);
+        return;
+      }
+      // الگوی ایمیل ساده
+      const emailRe = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if(!emailRe.test(email)){
+        showStatus('لطفاً یک ایمیل معتبر وارد کنید.', true);
+        return;
+      }
+
+      // اینجا می‌توانی درخواست fetch به سرور بزنی. فعلاً نمایش پیام موفقیت:
+      showStatus('متشکریم! شما ثبت نام شدید — به زودی دعوت‌نامه ارسال می‌شود.', false);
+
+      // انیمیشن پاک‌کردن فرم
+      const btn = document.querySelector('.btn');
+      btn.disabled = true;
+      btn.textContent = 'در حال ارسال...';
+
+      setTimeout(()=>{
+        document.getElementById('signup-form').reset();
+        btn.disabled = false;
+        btn.textContent = 'ثبت‌نام برای تست';
+      }, 1400);
+    }
+
+    function showStatus(msg, isError){
+      const el = document.getElementById('status');
+      el.textContent = msg;
+      el.style.color = isError ? '#b02a2a' : '#06406a';
+    }
+  </script>
 </body>
 </html>
