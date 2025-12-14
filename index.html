@@ -1,366 +1,221 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="fa" dir="rtl">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>ثبت نام تست — صفحه فرود</title>
-
-  <!-- IranYekan (local) - قرار بدهید IranYekan.woff2 کنار همین فایل -->
-  <style>
-    @font-face {
-      font-family: "IranYekan";
-      src: url("IranYekan.woff2") format("woff2"),
-           url("IranYekan.woff") format("woff");
-      font-weight: 300 800;
-      font-style: normal;
-      font-display: swap;
-    }
-
-    :root{
-      --bg-1: #eaf2ff;
-      --bg-2: #f0f7ff;
-      --accent: #0a57ff;
-      --accent-2: #1b6cff;
-      --muted: #6b7aa3;
-      --card-radius: 18px;
-      --max-w: 880px;
-    }
-
-    /* Global */
-    *{box-sizing:border-box}
-    html,body{height:100%}
-    body{
-      margin:0;
-      font-family: "IranYekan", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
-      background: linear-gradient(180deg,var(--bg-1),var(--bg-2));
-      color:#07214a;
-      -webkit-font-smoothing:antialiased;
-      -moz-osx-font-smoothing:grayscale;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      padding:36px 20px;
-    }
-
-    /* Layout */
-    .wrap{
-      width:100%;
-      max-width:var(--max-w);
-      display:grid;
-      grid-template-columns: 1fr 420px;
-      gap:28px;
-      align-items:center;
-    }
-
-    /* card left - hero */
-.hero{
-  /* لایه‌ی بالایی نیمه‌شفاف برای خوانایی + لوگوی واترمارک */
-  background:
-    linear-gradient(135deg, rgba(255,255,255,0.88), rgba(255,255,255,0.72)),
-    url("ligi.png") center 18% / 300px no-repeat;
-
-  border-radius: var(--card-radius);
-  /* فاصلهٔ بالا بیشتر برای جلوگیری از چسبیدن متن به لبه */
-  padding: 80px 36px 40px;
-  box-shadow: 0 12px 40px rgba(9,30,66,0.08);
-  backdrop-filter: blur(10px) saturate(130%);
-  position: relative;
-  text-align: center;
-  overflow: hidden;
-}
-
-/* شکل‌های دکوراتیو با شفافیت کمتر و جای مناسب */
-.hero::before{
-  content: "";
-  position: absolute;
-  top: -22%;
-  left: -8%;
-  width: 380px;
-  height: 380px;
-  background:
-    radial-gradient(circle at 30% 30%, rgba(10,87,255,0.10), transparent 22%),
-    radial-gradient(circle at 70% 70%, rgba(27,108,255,0.06), transparent 22%);
-  transform: rotate(14deg);
-  pointer-events: none;
-  filter: blur(6px);
-  opacity: 0.95;
-}
-
-/* اگر قبلاً .logo در markup بود، از نمایش آن جلوگیری کن (حالا لوگو بک‌گراند است) */
-.logo-wrap { display: none; }
-
-/* اگر در جای دیگری لازم است لوگو جداگانه نمایش داده شود، تنظیمات بزرگ‌تر و لطیف‌تر */
-.logo{
-  width: 220px;            /* بزرگ‌تر */
-  height: 220px;
-  object-fit: contain;
-  border-radius: 28px;
-  padding: 18px;
-  background: linear-gradient(180deg, rgba(10,87,255,0.05), rgba(27,108,255,0.02));
-  box-shadow: 0 12px 34px rgba(10,87,255,0.10);
-  transition: transform .35s ease, box-shadow .35s ease;
-}
-
-/* روی حالت hover کمی lift */
-.logo:hover{
-  transform: translateY(-6px) scale(1.03);
-  box-shadow: 0 22px 44px rgba(10,87,255,0.14);
-}
-
-
-    h1{
-      margin:8px 0 12px;
-      font-size:1.6rem;
-      line-height:1.25;
-      color:#032044;
-    }
-
-    .lead{
-      color:var(--muted);
-      font-size:1rem;
-      line-height:1.85;
-      margin-bottom:20px;
-    }
-
-    .features{
-      display:flex;
-      gap:12px;
-      margin-top:14px;
-      flex-wrap:wrap;
-    }
-    .chip{
-      background:rgba(10,87,255,0.06);
-      color:var(--accent-2);
-      padding:8px 12px;
-      border-radius:12px;
-      font-size:0.92rem;
-      box-shadow:inset 0 1px 0 rgba(255,255,255,0.6);
-    }
-
-    /* right card - signup form */
-    .card{
-      background:linear-gradient(180deg,#ffffff, #fbfdff);
-      border-radius:18px;
-      padding:26px;
-      box-shadow: 0 10px 30px rgba(12,30,80,0.07);
-    }
-
-    .form-title{
-      display:flex;
-      align-items:center;
-      gap:12px;
-      margin-bottom:10px;
-    }
-    .form-title h2{ margin:0; font-size:1.05rem; color:#07214a;}
-    .small{ color:var(--muted); font-size:0.9rem; margin-top:6px }
-
-    form{ margin-top:10px }
-    .field{
-      display:flex;
-      flex-direction:column;
-      gap:8px;
-      margin-bottom:12px;
-    }
-    label{ font-size:0.9rem; color:#334067; text-align:right; }
-    input[type="text"], input[type="email"]{
-      width:100%;
-      padding:12px 14px;
-      border-radius:12px;
-      border:1px solid #e3e9fb;
-      background: linear-gradient(180deg,#fff,#fbfdff);
-      outline:none;
-      font-size:1rem;
-      transition:box-shadow .15s ease, border-color .12s ease, transform .12s ease;
-    }
-    input:focus{ box-shadow:0 8px 24px rgba(10,87,255,0.08); border-color:var(--accent); transform:translateY(-1px); }
-
-    .btn{
-      width:100%;
-      padding:12px 14px;
-      border-radius:12px;
-      border:none;
-      background: linear-gradient(90deg,var(--accent), var(--accent-2));
-      color:white;
-      font-weight:600;
-      font-size:1rem;
-      cursor:pointer;
-      box-shadow: 0 8px 20px rgba(10,87,255,0.14);
-      transition:transform .14s ease, box-shadow .14s ease;
-    }
-    .btn:active{ transform:translateY(1px) }
-    .muted-note{
-      font-size:0.85rem;
-      color:var(--muted);
-      margin-top:10px;
-      text-align:center;
-    }
-
-    .team{
-      margin-top:18px;
-      padding:14px;
-      border-radius:12px;
-      background: linear-gradient(180deg, rgba(10,87,255,0.03), transparent);
-      font-size:0.95rem;
-      color:#14305a;
-    }
-
-    footer{
-      margin-top:18px;
-      text-align:center;
-      color:var(--muted);
-      font-size:0.85rem;
-    }
-@media (max-width: 1000px){
-  .hero{
-    background:
-      linear-gradient(150deg, rgba(255,255,255,0.90), rgba(255,255,255,0.78)),
-      url("ligi.png") center 20% / 260px no-repeat;
-    padding-top: 100px;
-    padding-left: 24px;
-    padding-right: 24px;
-  }
-  .logo{ width: 180px; height: 180px; padding: 14px; }
-  .hero::before{ width: 320px; height: 320px; top: -26%; left: -6%; }
-}
-
-@media (max-width: 480px){
-  .hero{
-    background:
-      linear-gradient(160deg, rgba(255,255,255,0.92), rgba(255,255,255,0.82)),
-      url("dsasadds.png") center 22% / 220px no-repeat;
-    padding-top: 120px; /* موبایل: فاصله بالاتر برای جلوگیری از تداخل با لوگو */
-    padding-left: 18px;
-    padding-right: 18px;
-  }
-  .logo{ width: 140px; height: 140px; padding: 10px; }
-  .hero::before{ width: 260px; height: 260px; top: -30%; left: -4%; filter: blur(8px); opacity: 0.85; }
-}
-
-    /* Responsive */
-    @media (max-width:1000px){
-      .wrap{ grid-template-columns: 1fr; max-width:680px; gap:18px; padding:0 6px; }
-      .logo{ width:140px;height:140px }
-    }
-    @media (max-width:480px){
-      body{ padding:18px }
-      .logo{ width:120px;height:120px }
-      h1{ font-size:1.25rem }
-      .lead{ font-size:0.98rem }
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>نام استارتاپت - فید هوشمند توسعه‌دهندگان ایرانی</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;700&display=swap');
+        body { font-family: 'Vazirmatn', sans-serif; }
+        .gradient-bg { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
+        .hover-scale { transition: transform 0.3s ease; }
+        .hover-scale:hover { transform: scale(1.05); }
+    </style>
 </head>
-
-<body>
-
-  <main class="wrap" role="main" aria-labelledby="hero-title">
-    <!-- HERO / left -->
-    <section class="hero" aria-labelledby="hero-title">
-      <div class="logo-wrap" aria-hidden="true">
-        <!-- بزرگ‌تر: ligi.png -->
-        <img src="ligi.png" alt="لوگو" class="logo" />
-      </div>
-
-      <h1 id="hero-title">به جمع تست‌کنندگان ما خوش آمدید — تجربهٔ سریع و هدفمند</h1>
-
-      <p class="lead">
-“با متوقف کردن یادگیری، شروع به مردن می‌کنید.” – انیشتین 
-متخصصان فناوری باید همگام با رشد تکنولوژی، بدون هدر دادن زمان و انرژی ، رشد کنن . برای این کار نیازی به معجزه نیست؛ فقط کافی است زمان را صرف یادگیری مطالب کنید، نه جستجو آن.  
-تچانو این مسیر را برای شما هموار می‌کند با جمع‌آوری و شخصی‌سازی محتوا از معتبرترین منابع دنیا، متناسب با نیازهای شما.
-وقت آن است که یادگیری را متوقف نکنید و با رشد فناوری همراه شوید. 
-      </p>
-
-      <div class="features" aria-hidden="true">
-        <span class="chip">دسترسی اولیه</span>
-        <span class="chip">نسخهٔ موبایل و وب</span>
-        <span class="chip">بازخورد مستقیم به تیم</span>
-      </div>
-
-      <div class="team" aria-label="درباره تیم">
-        <strong>تیم ما</strong>
-        <div style="margin-top:8px; color:#24406e;">
-          تیمی متشکل از توسعه‌دهنده‌ها و طراحان که با روش‌های چابک روی تجربهٔ کاربری و کیفیت محتوا کار می‌کنند.
-          هدف ما این است که ابزارهایی بسازیم که واقعا کار توسعه‌دهندگان را آسان کند.
+<body class="bg-gray-50">
+    
+    <!-- Hero Section -->
+    <section class="gradient-bg text-white py-20 px-4">
+        <div class="max-w-4xl mx-auto text-center">
+            <h1 class="text-4xl md:text-6xl font-bold mb-6">
+                روزانه ۱۰۰+ خبر تکنولوژی فارسی
+                <br/>
+                <span class="text-purple-200">فقط آنچه برای شما مهمه</span>
+            </h1>
+            <p class="text-xl md:text-2xl mb-8 text-purple-100">
+                فیدی شخصی‌سازی‌شده برای توسعه‌دهندگان ایرانی، شبیه Daily.dev اما بومی و فارسی
+            </p>
+            
+            <!-- CTA Button -->
+            <a href="#waitlist" class="inline-block bg-white text-purple-600 font-bold py-4 px-8 rounded-lg text-lg hover-scale shadow-lg">
+                جزو اولین‌ها باش 🚀
+            </a>
+            
+            <div class="mt-8 text-purple-200">
+                <p class="text-sm">✨ بزودی راه‌اندازی میشه | فقط برای ۱۰۰۰ نفر اول</p>
+            </div>
         </div>
-      </div>
-
-      <footer>
-        <div>سوال دارید؟ به ایمیل <strong>info@yourstartup.ir</strong> پیام دهید.</div>
-      </footer>
     </section>
 
-    <!-- SIGNUP / right -->
-    <aside class="card" aria-labelledby="form-title">
-      <div class="form-title">
-        <svg width="36" height="36" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-          <rect x="2" y="3" width="20" height="14" rx="2" stroke="#1b6cff" stroke-width="1.5" />
-          <path d="M3 7l9 6 9-6" stroke="#1b6cff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-
-        <div>
-          <h2 id="form-title">عضویت در برنامهٔ تست</h2>
-          <div class="small">تعداد محدود — جایگاه خود را ثبت کنید.</div>
+    <!-- Social Proof -->
+    <section class="py-12 bg-white">
+        <div class="max-w-4xl mx-auto px-4 text-center">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div>
+                    <div class="text-4xl font-bold text-purple-600">۲۰۰+</div>
+                    <div class="text-gray-600 mt-2">دولوپر در MVP تست کردند</div>
+                </div>
+                <div>
+                    <div class="text-4xl font-bold text-purple-600">۷ روز</div>
+                    <div class="text-gray-600 mt-2">تست و بررسی نیاز</div>
+                </div>
+                <div>
+                    <div class="text-4xl font-bold text-purple-600">۱۰۰+</div>
+                    <div class="text-gray-600 mt-2">منبع خبری فارسی</div>
+                </div>
+            </div>
+            
+            <div class="mt-12 bg-purple-50 p-6 rounded-lg border-r-4 border-purple-600">
+                <p class="text-gray-700 italic text-lg">
+                    "دیگه نیازی نیست ساعت‌ها تو کانال‌های تلگرام دنبال خبر بگردم. همه چی یه جا و فیلتر شده"
+                </p>
+                <p class="text-purple-600 font-bold mt-3">- یکی از تست‌کنندگان MVP</p>
+            </div>
         </div>
-      </div>
+    </section>
 
-      <form id="signup-form" onsubmit="handleSubmit(event)" novalidate>
-        <div class="field">
-          <label for="name">نام و نام خانوادگی</label>
-          <input id="name" name="name" type="text" placeholder="مثال: محمدرضا یوسفی" required />
+    <!-- Problem Statement -->
+    <section class="py-16 bg-gray-50">
+        <div class="max-w-3xl mx-auto px-4">
+            <h2 class="text-3xl font-bold text-center mb-8 text-gray-800">چرا این اتفاق افتاد؟</h2>
+            <div class="bg-white p-8 rounded-lg shadow-md">
+                <p class="text-lg text-gray-700 leading-relaxed mb-4">
+                    توسعه‌دهندگان ایرانی روزانه ساعت‌ها وقت میذارن تو کانال‌های تلگرام، توییتر و ده‌ها سایت مختلف برای پیدا کردن خبرهای مرتبط با کارشون.
+                </p>
+                <p class="text-lg text-gray-700 leading-relaxed mb-4">
+                    من خودم همین مشکل رو داشتم. هر روز صبح باید ۱۰ تا کانال تلگرام، چند تا سایت خارجی و توییتر رو چک می‌کردم.
+                </p>
+                <p class="text-lg text-gray-700 leading-relaxed font-bold text-purple-600">
+                    گفتم چرا یه جایی نباشه که فقط چیزهایی که برای من مهمه رو بهم نشون بده؟
+                </p>
+            </div>
         </div>
+    </section>
 
-        <div class="field">
-          <label for="email">ایمیل</label>
-          <input id="email" name="email" type="email" placeholder="example@mail.com" required />
+    <!-- Solution Features -->
+    <section class="py-16 bg-white">
+        <div class="max-w-5xl mx-auto px-4">
+            <h2 class="text-3xl font-bold text-center mb-12 text-gray-800">چطور کمک می‌کنیم؟</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Feature 1 -->
+                <div class="text-center p-6 bg-purple-50 rounded-lg hover-scale">
+                    <div class="text-5xl mb-4">🎯</div>
+                    <h3 class="text-xl font-bold mb-3 text-gray-800">شخصی‌سازی هوشمند</h3>
+                    <p class="text-gray-600">فقط محتوایی که با حوزه کاریت مرتبطه رو میبینی</p>
+                </div>
+                
+                <!-- Feature 2 -->
+                <div class="text-center p-6 bg-purple-50 rounded-lg hover-scale">
+                    <div class="text-5xl mb-4">🇮🇷</div>
+                    <h3 class="text-xl font-bold mb-3 text-gray-800">فارسی و بومی</h3>
+                    <p class="text-gray-600">منابع فارسی معتبر + ترجمه خبرهای مهم جهانی</p>
+                </div>
+                
+                <!-- Feature 3 -->
+                <div class="text-center p-6 bg-purple-50 rounded-lg hover-scale">
+                    <div class="text-5xl mb-4">⚡</div>
+                    <h3 class="text-xl font-bold mb-3 text-gray-800">صرفه‌جویی در وقت</h3>
+                    <p class="text-gray-600">به جای ۲ ساعت، فقط ۱۵ دقیقه در روز</p>
+                </div>
+            </div>
         </div>
+    </section>
 
-        <button class="btn" type="submit">ثبت‌نام برای تست</button>
-
-        <div class="muted-note" id="status" role="status" aria-live="polite">
-          اطلاعات شما نزد ما محفوظ است — فقط برای دعوت به تست استفاده می‌شود.
+    <!-- Waitlist Form Section -->
+    <section id="waitlist" class="py-20 gradient-bg">
+        <div class="max-w-2xl mx-auto px-4 text-center">
+            <h2 class="text-3xl md:text-4xl font-bold text-white mb-4">
+                آماده‌ای جزو اولین‌ها باشی؟
+            </h2>
+            <p class="text-xl text-purple-100 mb-8">
+                فقط ۱۰۰۰ نفر اول Early Access میگیرن
+            </p>
+            
+            <!-- اینجا فرم Tally رو جایگذاری میکنیم -->
+            <div class="bg-white p-8 rounded-lg shadow-xl">
+                <div class="text-gray-800 mb-6">
+                    <p class="text-lg font-bold mb-4">📧 ایمیلت رو وارد کن تا خبردار بشی</p>
+                    
+                    <!-- IMPORTANT: Replace this section with your Tally embed code -->
+                    <iframe data-tally-src="https://tally.so/embed/QK1NJG?hideTitle=1&transparentBackground=1&dynamicHeight=1" loading="lazy" width="100%" height="492" frameborder="0" marginheight="0" marginwidth="0" title="Waitlist form"></iframe>
+                    <script>var d=document,w="https://tally.so/widgets/embed.js",v=function(){"undefined"!=typeof Tally?Tally.loadEmbeds():d.querySelectorAll("iframe[data-tally-src]:not([src])").forEach((function(e){e.src=e.dataset.tallySrc}))};if("undefined"!=typeof Tally)v();else if(d.querySelector('script[src="'+w+'"]')==null){var s=d.createElement("script");s.src=w,s.onload=v,s.onerror=v,d.body.appendChild(s);}</script>
+                    <!-- END: Replace section -->
+                </div>
+            </div>
+            
+            <p class="text-purple-200 mt-6 text-sm">
+                🔒 ایمیلت امن نگه‌داری میشه و اسپم نمیکنیم
+            </p>
         </div>
-      </form>
-    </aside>
-  </main>
+    </section>
 
-  <!-- اختیاری: اسکریپت محلی برای نمایش پیام موفقیت (بدون ارسال واقعی) -->
-  <script>
-    function handleSubmit(e){
-      e.preventDefault();
-      const name = document.getElementById('name').value.trim();
-      const email = document.getElementById('email').value.trim();
+    <!-- Team/Vision Section -->
+    <section class="py-16 bg-white">
+        <div class="max-w-3xl mx-auto px-4 text-center">
+            <h2 class="text-3xl font-bold mb-8 text-gray-800">پشت صحنه</h2>
+            
+            <div class="bg-gray-50 p-8 rounded-lg">
+                <!-- اینجا میتونی عکس تیم بذاری -->
+                <div class="w-32 h-32 bg-purple-200 rounded-full mx-auto mb-6 flex items-center justify-center text-5xl">
+                    👨‍💻
+                </div>
+                
+                <p class="text-lg text-gray-700 leading-relaxed mb-6">
+                    ما باور داریم که توسعه‌دهندگان ایرانی نباید وقتشون رو صرف جستجوی خبر کنن. 
+                    باید روی کدنویسی و یادگیری تمرکز کنن.
+                </p>
+                
+                <a href="YOUR_LINKEDIN_URL" target="_blank" class="inline-block text-purple-600 font-bold hover:text-purple-800">
+                    بیشتر بخون در LinkedIn ←
+                </a>
+            </div>
+        </div>
+    </section>
 
-      // ساده‌ترین اعتبارسنجی
-      if(!name || !email){
-        showStatus('لطفاً نام و ایمیل را کامل کنید.', true);
-        return;
-      }
-      // الگوی ایمیل ساده
-      const emailRe = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      if(!emailRe.test(email)){
-        showStatus('لطفاً یک ایمیل معتبر وارد کنید.', true);
-        return;
-      }
+    <!-- FAQ Section -->
+    <section class="py-16 bg-gray-50">
+        <div class="max-w-3xl mx-auto px-4">
+            <h2 class="text-3xl font-bold text-center mb-12 text-gray-800">سوالات متداول</h2>
+            
+            <div class="space-y-6">
+                <!-- FAQ 1 -->
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <h3 class="text-xl font-bold mb-3 text-gray-800">کی لانچ میشه؟</h3>
+                    <p class="text-gray-600">تا یک ماه آینده برای اعضای Waitlist آماده میشه. اول Early Access، بعد عمومی.</p>
+                </div>
+                
+                <!-- FAQ 2 -->
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <h3 class="text-xl font-bold mb-3 text-gray-800">رایگانه؟</h3>
+                    <p class="text-gray-600">بله! نسخه اصلی کاملاً رایگان. در آینده ممکنه یه نسخه پریمیوم با فیچرهای اضافی داشته باشیم.</p>
+                </div>
+                
+                <!-- FAQ 3 -->
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <h3 class="text-xl font-bold mb-3 text-gray-800">چه نوع خبرهایی توش هست؟</h3>
+                    <p class="text-gray-600">خبرهای تکنولوژی، آپدیت‌های فریمورک‌ها، مقالات آموزشی، اخبار شرکت‌های ایرانی، فرصت‌های شغلی و...</p>
+                </div>
+                
+                <!-- FAQ 4 -->
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <h3 class="text-xl font-bold mb-3 text-gray-800">چطور شخصی‌سازی میشه؟</h3>
+                    <p class="text-gray-600">موقع ثبت‌نام حوزه کاریت رو انتخاب میکنی. بعدش میتونی تگ‌ها و منابع دلخواهت رو تنظیم کنی.</p>
+                </div>
+            </div>
+        </div>
+    </section>
 
-      // اینجا می‌توانی درخواست fetch به سرور بزنی. فعلاً نمایش پیام موفقیت:
-      showStatus('متشکریم! شما ثبت نام شدید — به زودی دعوت‌نامه ارسال می‌شود.', false);
+    <!-- Final CTA -->
+    <section class="py-16 bg-purple-900 text-white text-center">
+        <div class="max-w-2xl mx-auto px-4">
+            <h2 class="text-3xl font-bold mb-4">دیگه وقت نذار هدر بره</h2>
+            <p class="text-xl mb-8 text-purple-200">جوین شو و تو جریان بمون، راحت‌تر از همیشه</p>
+            <a href="#waitlist" class="inline-block bg-white text-purple-600 font-bold py-4 px-8 rounded-lg text-lg hover-scale shadow-lg">
+                همین الان ثبت‌نام کن 🚀
+            </a>
+        </div>
+    </section>
 
-      // انیمیشن پاک‌کردن فرم
-      const btn = document.querySelector('.btn');
-      btn.disabled = true;
-      btn.textContent = 'در حال ارسال...';
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-gray-400 py-8 text-center">
+        <p>ساخته شده با ❤️ برای توسعه‌دهندگان ایرانی</p>
+        <div class="mt-4">
+            <a href="#" class="text-purple-400 hover:text-purple-300 mx-3">تماس با ما</a>
+            <a href="#" class="text-purple-400 hover:text-purple-300 mx-3">LinkedIn</a>
+        </div>
+    </footer>
 
-      setTimeout(()=>{
-        document.getElementById('signup-form').reset();
-        btn.disabled = false;
-        btn.textContent = 'ثبت‌نام برای تست';
-      }, 1400);
-    }
-
-    function showStatus(msg, isError){
-      const el = document.getElementById('status');
-      el.textContent = msg;
-      el.style.color = isError ? '#b02a2a' : '#06406a';
-    }
-  </script>
 </body>
 </html>
