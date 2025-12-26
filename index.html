@@ -116,26 +116,39 @@
             width: 100%;
             right: 0;
         }
+
+.carousel-slide {
+  width: 300px;
+  height: 420px;
+  flex-shrink: 0;
+  object-fit: cover;
+  border-radius: 16px;
+  opacity: 0.45;
+  transform: scale(0.85);
+  transition: transform 0.45s cubic-bezier(.2,.9,.2,1), opacity 0.45s;
+}
+
+.carousel-slide.active {
+  opacity: 1;
+  transform: scale(1);
+  z-index: 10;
+}
     </style>
 </head>
 <body class="bg-gray-50">
     
-    <!-- Sticky Navbar -->
     <nav class="navbar">
         <div class="max-w-6xl mx-auto px-4 py-4">
             <div class="flex justify-between items-center">
-                <!-- Logo Small -->
                 <div class="flex items-center">
                     <img src="navbarLogo.png" alt="تَچانو" class="h-10 md:h-12">
                 </div>
                 
-                <!-- Navigation Links -->
                 <div class="hidden md:flex gap-8">
                     <a href="#about" class="nav-link text-gray-700 font-medium hover:text-blue-900">درباره تَچانو</a>
                     <a href="#testimonials" class="nav-link text-gray-700 font-medium hover:text-blue-900">نظرات</a>
                 </div>
                 
-                <!-- CTA Button -->
                 <a href="#waitlist" class="btn-primary text-white px-6 py-2 rounded-full font-medium text-sm">
                    عضو شو
                 </a>
@@ -143,7 +156,6 @@
         </div>
     </nav>
 
-    <!-- Hero Section - WHITE BACKGROUND -->
     <section class="bg-white pt-16 pb-20 md:pt-24 md:pb-32 px-4">
         <div class="max-w-5xl mx-auto">
             <!-- Logo Large -->
@@ -175,7 +187,6 @@
         </div>
     </section>
 
-    <!-- Problem Statement -->
 <section id="about" class="py-16 md:py-20 bg-gray-50">
         <div class="max-w-3xl mx-auto px-4">
             <!-- Quote -->
@@ -202,7 +213,6 @@
             </div>
         </div>
     </section>
-    <!-- Features -->
     <section id="features" class="py-16 md:py-10 bg-white">
         <div class="max-w-6xl mx-auto px-4">
             <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
@@ -245,8 +255,52 @@
         </div>
     </section>
     
+<section class="py-20 bg-white">
+  <div class="max-w-6xl mx-auto px-4">
 
-    <!-- Testimonials Carousel -->
+    <div class="text-center mb-12">
+      <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+        پیش‌نمایش محصول
+      </h2>
+      <p class="text-gray-600 text-lg">
+        تجربه واقعی استفاده از تچانو
+      </p>
+    </div>
+
+    <div class="relative flex items-center justify-center">
+
+    <!-- Left -->
+<button class="app-prev absolute right-0 z-20 w-12 h-12 bg-white shadow rounded-full flex items-center justify-center">
+  ‹
+</button>
+
+      <!-- VIEWPORT -->
+      <div class="w-[900px] overflow-hidden">
+        <div
+          id="carouselTrack"
+          class="flex items-center gap-8 transition-transform duration-500 ease-out">
+
+          <img src="preview1.jpg" class="carousel-slide">
+          <img src="preview2.jpg" class="carousel-slide">
+          <img src="preview3.jpg" class="carousel-slide">
+          <img src="preview4.jpg" class="carousel-slide">
+
+        </div>
+      </div>
+
+      <!-- Right -->
+<!-- Right -->
+
+    <button class="app-next absolute left-0 z-20 w-12 h-12 bg-white shadow rounded-full flex items-center justify-center">
+    ›
+    </button>
+    </div>
+  </div>
+</section>
+
+
+
+
 <section id="testimonials" class="py-16 md:py-20 bg-gray-50">
     <div class="max-w-6xl mx-auto px-4">
         <div class="text-center mb-12">
@@ -257,7 +311,6 @@
         
         <div class="relative overflow-hidden">
             <div id="testimonialCarousel" class="testimonial-carousel">
-                <!-- Testimonial 1 -->
                 <div class="testimonial-slide">
                     <div class="bg-white p-8 rounded-2xl border-2 border-blue-100 h-full shadow-lg">
                         <div class="text-[#113D6E] text-5xl font-serif">"</div>
@@ -289,7 +342,6 @@
                     </div>
                 </div>
 
-                <!-- Testimonial 3 -->
                 <div class="testimonial-slide">
                     <div class="bg-white p-8 rounded-2xl border-2 border-blue-100 h-full shadow-lg">
                         <div class="text-[#113D6E] text-5xl font-serif">"</div>
@@ -484,130 +536,163 @@
         </div>
     </footer>
 
-    <!-- JavaScript -->
-    <script>
-        // Navbar Scroll Effect
-        window.addEventListener('scroll', () => {
-            const navbar = document.querySelector('.navbar');
-            if (window.scrollY > 50) {
-                navbar.classList.add('scrolled');
-            } else {
-                navbar.classList.remove('scrolled');
-            }
-        });
-        
-// Testimonial Carousel - FIXED VERSION
-const carousel = document.getElementById('testimonialCarousel');
-const slides = carousel.querySelectorAll('.testimonial-slide');
+<script>
+/* ================= NAVBAR ================= */
+window.addEventListener('scroll', () => {
+  const navbar = document.querySelector('.navbar');
+  navbar.classList.toggle('scrolled', window.scrollY > 50);
+});
+
+/* ================= APP PREVIEW CAROUSEL ================= */
+const appTrack = document.getElementById('carouselTrack');
+  const appSlides = Array.from(document.querySelectorAll('.carousel-slide'));
+
+  // viewport = عنصر والدِ track (div با overflow-hidden)
+  const appViewport = appTrack.parentElement;
+
+  // دکمه‌ها (طبق کلاس‌هایی که در HTML اضافه کردی)
+  const appPrevBtn = appTrack.closest('.relative').querySelector('.app-prev');
+  const appNextBtn = appTrack.closest('.relative').querySelector('.app-next');
+
+  // وضعیت
+  let appCurrentIndex = 1; // اسلاید مرکزی پیش‌فرض
+
+  // --- توابع ---
+  function centerAppSlide(index) {
+    // محافظت از بازه
+    if (index < 0) index = 0;
+    if (index > appSlides.length - 1) index = appSlides.length - 1;
+    appCurrentIndex = index;
+
+    // remove / add کلاس active (برای scale/opacity در CSS)
+    appSlides.forEach(s => s.classList.remove('active'));
+    const activeSlide = appSlides[appCurrentIndex];
+    activeSlide.classList.add('active');
+
+    // محاسبه translate به‌صورتی که مرکز اسلاید وسط viewport بشه
+    // توجه: از offsetLeft و اندازه‌ی واقعی اسلاید استفاده می‌کنیم — این روش با RTL/LTR سازگار هست
+    const slideCenterFromTrackStart = activeSlide.offsetLeft + activeSlide.offsetWidth / 2;
+    const viewportCenter = appViewport.clientWidth / 2;
+
+    const translateX = viewportCenter - slideCenterFromTrackStart;
+
+    // اعمال translate (از transform استفاده می‌کنیم تا reflow ایجاد نشه)
+    appTrack.style.transform = `translateX(${translateX}px)`;
+  }
+
+  function nextAppSlide() {
+    let next = appCurrentIndex + 1;
+    if (next >= appSlides.length) next = 0;
+    centerAppSlide(next);
+  }
+
+  function prevAppSlide() {
+    let prev = appCurrentIndex - 1;
+    if (prev < 0) prev = appSlides.length - 1;
+    centerAppSlide(prev);
+  }
+
+  // --- event listeners برای دکمه‌ها ---
+  if (appPrevBtn) appPrevBtn.addEventListener('click', prevAppSlide);
+  if (appNextBtn) appNextBtn.addEventListener('click', nextAppSlide);
+
+  // پشتیبانی از کیبورد (اختیاری ولی مفید)
+  window.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowLeft') prevAppSlide();
+    if (e.key === 'ArrowRight') nextAppSlide();
+  });
+
+  // واکنش به تغییر اندازه صفحه (برای recalculation)
+  window.addEventListener('resize', () => {
+    // دوباره مرکز کن اسلاید جاری (اندازه‌ها ممکنه تغییر کرده باشن)
+    centerAppSlide(appCurrentIndex);
+  });
+
+  // مقداردهی اولیه
+  centerAppSlide(appCurrentIndex);
+
+/* ================= TESTIMONIAL CAROUSEL ================= */
+const testimonialCarousel = document.getElementById('testimonialCarousel');
+const testimonialSlides = testimonialCarousel.querySelectorAll('.testimonial-slide');
 const dotsContainer = document.getElementById('carouselDots');
-let currentIndex = 0;
+
+let testimonialIndex = 0;
 let autoplayInterval;
 
-// تعداد اسلایدهای قابل نمایش بر اساس سایز صفحه
 function getSlidesPerView() {
-    return window.innerWidth >= 768 ? 3 : 1;
+  return window.innerWidth >= 768 ? 3 : 1;
 }
 
-// محاسبه تعداد کل صفحات
 function getTotalPages() {
-    return Math.ceil(slides.length / getSlidesPerView());
+  return Math.ceil(testimonialSlides.length / getSlidesPerView());
 }
 
-// Create dots بر اساس تعداد صفحات واقعی
 function createDots() {
-    dotsContainer.innerHTML = '';
-    const totalPages = getTotalPages();
-    
-    for (let i = 0; i < totalPages; i++) {
-        const dot = document.createElement('button');
-        dot.className = 'w-3 h-3 rounded-full transition-all ' + (i === 0 ? 'bg-blue-700 w-8' : 'bg-gray-300');
-        dot.onclick = () => goToPage(i);
-        dotsContainer.appendChild(dot);
-    }
+  dotsContainer.innerHTML = '';
+  const totalPages = getTotalPages();
+
+  for (let i = 0; i < totalPages; i++) {
+    const dot = document.createElement('button');
+    dot.className =
+      'w-3 h-3 rounded-full transition-all ' +
+      (i === 0 ? 'bg-blue-700 w-8' : 'bg-gray-300');
+
+    dot.onclick = () => goToPage(i);
+    dotsContainer.appendChild(dot);
+  }
 }
 
-function updateCarousel() {
-    const slidesPerView = getSlidesPerView();
-    const slideWidth = carousel.offsetWidth / slidesPerView;
-    
-    // محاسبه مقدار انتقال - برای RTL باید مثبت باشه
-    const translateValue = currentIndex * slideWidth;
-    carousel.style.transform = `translateX(${translateValue}px)`;
-    
-    // Update dots
-    const currentPage = Math.floor(currentIndex / slidesPerView);
-    const dots = dotsContainer.querySelectorAll('button');
-    dots.forEach((dot, index) => {
-        if (index === currentPage) {
-            dot.className = 'w-3 h-3 rounded-full bg-blue-700 w-8 transition-all';
-        } else {
-            dot.className = 'w-3 h-3 rounded-full bg-gray-300 transition-all';
-        }
-    });
+function updateTestimonialCarousel() {
+  const slidesPerView = getSlidesPerView();
+  const slideWidth = testimonialCarousel.offsetWidth / slidesPerView;
+
+  testimonialCarousel.style.transform =
+    `translateX(${testimonialIndex * slideWidth}px)`;
+
+  const currentPage = Math.floor(testimonialIndex / slidesPerView);
+  const dots = dotsContainer.querySelectorAll('button');
+
+  dots.forEach((dot, i) => {
+    dot.className =
+      'w-3 h-3 rounded-full transition-all ' +
+      (i === currentPage ? 'bg-blue-700 w-8' : 'bg-gray-300');
+  });
 }
 
-function goToPage(pageIndex) {
-    const slidesPerView = getSlidesPerView();
-    currentIndex = pageIndex * slidesPerView;
-    
-    // محدود کردن به تعداد اسلایدهای موجود
-    const maxIndex = slides.length - slidesPerView;
-    if (currentIndex > maxIndex) {
-        currentIndex = maxIndex;
-    }
-    
-    updateCarousel();
-    resetAutoplay();
+function goToPage(page) {
+  testimonialIndex = page * getSlidesPerView();
+  updateTestimonialCarousel();
+  resetAutoplay();
 }
 
-function nextSlide() {
-    const slidesPerView = getSlidesPerView();
-    const maxIndex = slides.length - slidesPerView;
-    
-    currentIndex += slidesPerView;
-    
-    // اگر به انتها رسیدیم، برگرد به اول
-    if (currentIndex > maxIndex) {
-        currentIndex = 0;
-    }
-    
-    updateCarousel();
+function nextTestimonialSlide() {
+  const slidesPerView = getSlidesPerView();
+  const maxIndex = testimonialSlides.length - slidesPerView;
+
+  testimonialIndex += slidesPerView;
+  if (testimonialIndex > maxIndex) testimonialIndex = 0;
+
+  updateTestimonialCarousel();
 }
 
 function resetAutoplay() {
-    clearInterval(autoplayInterval);
-    autoplayInterval = setInterval(nextSlide, 4000);
+  clearInterval(autoplayInterval);
+  autoplayInterval = setInterval(nextTestimonialSlide, 4000);
 }
 
-// Initialize
 createDots();
-updateCarousel();
+updateTestimonialCarousel();
+autoplayInterval = setInterval(nextTestimonialSlide, 4000);
 
-// Start autoplay
-autoplayInterval = setInterval(nextSlide, 4000);
+testimonialCarousel.addEventListener('mouseenter', () => clearInterval(autoplayInterval));
+testimonialCarousel.addEventListener('mouseleave', resetAutoplay);
 
-// Pause on hover
-carousel.addEventListener('mouseenter', () => clearInterval(autoplayInterval));
-carousel.addEventListener('mouseleave', resetAutoplay);
-
-// Update on resize
 window.addEventListener('resize', () => {
-    createDots();
-    currentIndex = 0;
-    updateCarousel();
+  createDots();
+  testimonialIndex = 0;
+  updateTestimonialCarousel();
 });
-        
-        // FAQ Toggle
-        document.querySelectorAll('.faq-toggle').forEach(button => {
-            button.addEventListener('click', function() {
-                const content = this.nextElementSibling;
-                const arrow = this.querySelector('svg');
-                
-                content.classList.toggle('hidden');
-                arrow.classList.toggle('rotate-180');
-            });
-        });
-    </script>
+</script>
 
 </body>
 </html>
